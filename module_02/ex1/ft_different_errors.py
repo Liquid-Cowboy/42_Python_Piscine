@@ -1,42 +1,39 @@
 #!/usr/bin/env python3
 
 def garden_operations():
+    print('\nTesting ValueError...')
     try:
-        nbr = int('abc')
-        res = 1 / 0
-        file_test = 'missing.txt'
-        open(file_test)
-        dict = {
-            '1' : 'a',
-            '3' : 'b'
-            }
-        print(f'{dict['2']}')
-    except ValueError:
-        print(
-                'Testing ValueError...\n'
-                'Caught ValueError: invalid literal for int()'
-        )
-    except ZeroDivisionError:
-        print(
-                'Testing ZeroDivisionError...\n'
-                'Caught ZeroDivisionError: division by zero'
-        )
-    except FileNotFoundError:
-        print(
-                'Testing FileNotFoundError...\n'
-                f'Caught FileNotFoundError: No such file \'{file_test}\''
-            )
+        int('abc')
+    except ValueError as e:
+        print(f'Caught ValueError: {e}')
+
+    print('\nTesting ZeroDivisionError...')
+    try:
+        1 / 0
+    except ZeroDivisionError as e:
+        print(f'Caught ZeroDivisionError: {e}')
+
+    print('\nTesting FileNotFoundError...')
+    try:
+        open('missing.txt')
+    except FileNotFoundError as e:
+        print(f'Caught FileNotFoundError: {e}')
+
+    print('\nTesting KeyError...')
+    try:
+        d = {}
+        d['missing']
     except KeyError as e:
-        print(
-                'Testing KeyError...'
-                f'Caught KeyError: {e}'
-        )
+        print(f'Caught KeyError: {e}')
+
+    print('\nTesting multiple errors together...')
+    try:
+        int('abc') / 0
+    except (ValueError, ZeroDivisionError, FileNotFoundError, KeyError):
+        print('Caught an error, but program continues!')
 
 
 if __name__ == '__main__':
+    print('=== Garden Error Types Demo ===')
     garden_operations()
-    print (
-            'Testing multiple errors together...\n'
-            'Caught an error, but program continues!'
-            '\nAll error types tested successfully!'
-        )
+    print('\nAll error types tested successfully!')
