@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 print('=== Achievement Tracker System ===\n')
-ach= ['first_kill', 'level_10', 'treasure_hunter',
-                        'speed_demon', 'boss_slayer', 'collector', 'perfectionist']
+ach = ['first_kill', 'level_10', 'treasure_hunter',
+       'speed_demon', 'boss_slayer', 'collector', 'perfectionist']
+
 alice_ach = {ach[0], ach[1], ach[2], ach[3]}
 bob_ach = {ach[0], ach[1], ach[4], ach[5]}
 charlie_ach = {ach[1], ach[2], ach[4], ach[3], ach[6]}

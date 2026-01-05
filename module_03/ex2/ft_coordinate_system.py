@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import math
 
 print('=== Game Coordinate System ===')
@@ -25,7 +24,7 @@ x = int(coor_l[0])
 y = int(coor_l[1])
 z = int(coor_l[2])
 coordinates = (x, y, z)
-print ('Parsed position:', coordinates)
+print('Parsed position:', coordinates)
 x2, y2, z2 = coordinates
 distance = '%.2f' % math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
 print(f'Distance between {origin} and {coordinates}:', distance)
