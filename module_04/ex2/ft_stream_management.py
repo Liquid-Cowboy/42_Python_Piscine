@@ -9,8 +9,10 @@ try:
     status: str = input('Input Stream active. Enter status report: ')
 
 except KeyboardInterrupt:
-    print('\nERROR: An error ocurred while receiving input. Exiting...',
+    print('\nERROR: User pressed Ctrl-C. Exiting...',
           file=sys.stderr)
+except Exception:
+    print('\nERROR: An error ocurred while receiving input. Exiting...')
 
 else:
     print(f'\n[STANDARD] Archive status from {id}: {status}',
