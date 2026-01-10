@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 class Plant:
+    "Will serve as the blueprint for the different plants."
     def __init__(self, name: str, height: int, days: int):
         """Defines atributes."""
         self.name = name
@@ -30,8 +31,6 @@ if __name__ == '__main__':
     print('=== Day 1 ===')
     for plant in plants:
         print(plant.get_info())
-
-    for plant in plants:
         plant.grow()
         plant.age()
 
