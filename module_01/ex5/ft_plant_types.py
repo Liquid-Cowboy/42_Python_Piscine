@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 class Plant():
+    """Will serve as a blueprint to all children classes"""
     def __init__(self, name: str, height: int, age: int) -> None:
         self.name = name
         self.height = height
@@ -8,29 +9,47 @@ class Plant():
 
 
 class Flower(Plant):
+    """Has the bloom() function and the
+    color: str atribute"""
     def __init__(self, name, height, age, color: str):
+        """By using super() in out __init___ method,
+        we will inherit the initialization method for this
+        child class"""
         super().__init__(name, height, age)
         self.color = color
 
     def bloom(self):
+        """Simply outputs a message"""
         print(f'{self.name} is blooming beautifully!')
 
 
 class Tree(Plant):
+    """Has the produce_shade() function and the
+    trunk_diameter: int atribute"""
     def __init__(self, name, height, age, trunk_diameter: int):
+        """By using super() in out __init___ method,
+        we will inherit the initialization method for this
+        child class"""
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
 
     def produce_shade(self):
+        """Simply outputs a message based on
+        arbitrary calculations"""
         return (
                 f'{self.name} provides '
-                f'{(self.height * 0.003) + (self.trunk_diameter / 100)}'
+                f'{int((self.height * 0.075) + (self.trunk_diameter / 100))}'
                 ' square meters of shade'
             )
 
 
 class Vegetable(Plant):
-    def __init__(self, name, height, age, harvest_season, nutritional_value):
+    """Has the harvest_season: str and the nutritional_value: str atributes"""
+    def __init__(self, name, height, age, harvest_season: str,
+                 nutritional_value: str):
+        """By using super() in out __init___ method,
+        we will inherit the initialization method for this
+        child class"""
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
@@ -62,7 +81,7 @@ if __name__ == '__main__':
         print(
                 f'{tree.name} (Tree): {tree.height}cm, {tree.age} days, '
                 f'{tree.trunk_diameter}cm diameter\n'
-                f'{tree.name} provides {tree.produce_shade()}\n'
+                f'{tree.produce_shade()}\n'
         )
     for vegetable in vegetables:
         print(

@@ -3,11 +3,14 @@
 class GardenManager():
     """Garden Manager can manage a total of 100 gardens
     Since we can't use append method, a max limit of gardens
-    needs to be defined"""
+    needs to be defined (and initialized with None)"""
     gardens = [None] * 100
     garden_count = 0
 
     def __init__(self, owner: str):
+        """Will receive the owner name and initialize atributes
+        that will keep track of the amount of plants
+        Self.plants is initialized in the same way as cls.gardens"""
         if GardenManager.garden_count == 99:
             print(
                     'A maximum of 100 gardens is permitted. '
@@ -31,7 +34,7 @@ class GardenManager():
         self.plants[self.plant_count] = plant
         self.plant_count += 1
         print(
-                f'Added {plant.name}({plant.height}cm, {plant.age} days)'
+                f'Added {plant.name} ({plant.height}cm, {plant.age} days)'
                 f' to {self.owner}\'s garden.'
             )
         if plant.type == 'flowering plant':
@@ -40,10 +43,14 @@ class GardenManager():
             self.prize_flower_count += 1
 
     class GardenStats():
+        """This nested class is used to print the current stats of
+        class atributes"""
         @staticmethod
         def garden_points(garden_instance):
             """Will receive an instance and return
-            collected points from instances with that atribute"""
+            collected points from instances with that atribute
+            Because it is static, this method doesn't use neither
+            class or instance atributes"""
             total = 0
             for plant in garden_instance.plants:
                 if plant is None:
@@ -78,14 +85,15 @@ class GardenManager():
 
     @classmethod
     def create_garden_network(cls):
+        """Will simply print a starting point by accessing
+        class atributes"""
         print('\nCreating garden network...')
         print(f'Garden slots taken: {cls.garden_count}')
-        print(f'Garden slots avaiable: {100 - cls.garden_count}\n')
+        print(f'Garden slots available: {100 - cls.garden_count}\n')
 
     @staticmethod
     def welcome_message():
-        """Because it is static, this method
-        doesn't use neither class or instance atributes."""
+        """Simply prints a welcome message"""
         print(
             '=== Garden Management System Demo ===\n'
             'Welcome...\n'
@@ -93,6 +101,7 @@ class GardenManager():
 
 
 class Plant():
+    """Serves as the mother class to all other child classes"""
     def __init__(self, name, height, age):
         self.type = 'regular plant'
         self.name = name
@@ -101,18 +110,22 @@ class Plant():
 
 
 class FloweringPlant(Plant):
+    """Child class with a special type, a state atribute
+     and a check_state() function"""
     def __init__(self, name, height, age, state):
         super().__init__(name, height, age)
         self.state = state
         self.type = 'flowering plant'
 
     def check_state(self):
+        """Returns a conditional output"""
         if (self.state == 0):
             return 'unwell'
         return 'blooming'
 
 
 class PrizeFlower(FloweringPlant):
+    """Child class with special type and a prize_points atribute"""
     def __init__(self, name, height, age, state, prize_points):
         super().__init__(name, height, age, state)
         self.type = 'prize flower'

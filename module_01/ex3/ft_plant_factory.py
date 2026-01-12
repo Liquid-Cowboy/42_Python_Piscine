@@ -21,7 +21,7 @@ class Plant:
 
     def get_info(self):
         """Returns the 3 atributes in a string."""
-        return f'{self.name}: {self.height}cm, {self.days} days old'
+        return f'{self.name} ({self.height}cm, {self.days} days)'
 
 
 if __name__ == '__main__':
