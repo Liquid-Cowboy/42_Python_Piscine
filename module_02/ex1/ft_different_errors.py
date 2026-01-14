@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 def garden_operations():
+    """Will catch different types of errors
+    by using different error flags"""
     print('\nTesting ValueError...')
     try:
         int('abc')
@@ -9,7 +11,7 @@ def garden_operations():
 
     print('\nTesting ZeroDivisionError...')
     try:
-        1 / 0
+        _ = 1 / 0
     except ZeroDivisionError as e:
         print(f'Caught ZeroDivisionError: {e}')
 
@@ -28,7 +30,7 @@ def garden_operations():
 
     print('\nTesting multiple errors together...')
     try:
-        int('abc') / 0
+        _ = int('abc') / 0
     except (ValueError, ZeroDivisionError, FileNotFoundError, KeyError):
         print('Caught an error, but program continues!')
 

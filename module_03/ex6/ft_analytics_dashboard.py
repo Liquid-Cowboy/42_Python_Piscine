@@ -10,7 +10,7 @@ print('=== Game Analytics Dashboard ===\n')
 
 print('=== List Comprehension Example ===')
 above_average = [n for n in scores
-                 if n > sum(scores) / len(scores)]
+                 if n > (sum(scores) / len(scores))]
 complete_perc = [(str(int(n/50)) + '%')for n in scores]
 print(f'Above average scores: {above_average}')
 print(f'Completion percentages: {complete_perc}')

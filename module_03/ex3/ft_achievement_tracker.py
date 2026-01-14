@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
 
 print('=== Achievement Tracker System ===\n')
-ach = ['first_kill', 'level_10', 'treasure_hunter',
+ach: list = ['first_kill', 'level_10', 'treasure_hunter',
        'speed_demon', 'boss_slayer', 'collector', 'perfectionist']
 
-alice_ach = {ach[0], ach[1], ach[2], ach[3]}
-bob_ach = {ach[0], ach[1], ach[4], ach[5]}
-charlie_ach = {ach[1], ach[2], ach[4], ach[3], ach[6]}
+alice_ach: set = {ach[0], ach[1], ach[2], ach[3]}
+bob_ach: set = {ach[0], ach[1], ach[4], ach[5]}
+charlie_ach: set = {ach[1], ach[2], ach[4], ach[3], ach[6]}
 
 print(f'Player Alice\'s achievements: {alice_ach}')
 print(f'Player Bob\'s achievements: {bob_ach}')
 print(f'Player Charlie\'s achievements: {charlie_ach}')
 
 print('\n=== Achievement Analytics ===')
-print(f'All unique achievements: {alice_ach.union(bob_ach).union(charlie_ach)}')
-print(f'Total unique achievements: {len(alice_ach.union(bob_ach).union(charlie_ach))}')
+print('All unique achievements:',
+      alice_ach.union(bob_ach).union(charlie_ach))
+print('Total unique achievements:',
+      len(alice_ach.union(bob_ach).union(charlie_ach)))
 
-print(f'\nCommon to all players: {alice_ach.intersection(bob_ach).intersection(charlie_ach)}')
-rare_ach = (
+print('\nCommon to all players:',
+      alice_ach.intersection(bob_ach).intersection(charlie_ach))
+rare_ach: set = (
             alice_ach.difference(bob_ach.union(charlie_ach))
             .union(bob_ach.difference(alice_ach.union(charlie_ach)))
             .union(charlie_ach.difference(alice_ach.union(bob_ach)))
             )
-print(f'Rare achievements: {rare_ach}')
+print(f'Rare achievements (1 player): {rare_ach}')
 
 print(f'\nAlice vs Bob common: {alice_ach.intersection(bob_ach)}')
 print(f'Alice unique: {alice_ach.difference(bob_ach)}')

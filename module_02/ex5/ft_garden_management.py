@@ -1,19 +1,24 @@
 #!/usr/bin/env python3
 class GardenError(Exception):
+    """Mother class for all garden errors"""
     pass
 
 
 class PlantError(GardenError):
+    """Will cover sunlight errors"""
     pass
 
 
 class WaterError(GardenError):
+    """Will cover water errors"""
     pass
 
 
 class GardenManager():
-
-    def add_plant(plant_name):
+    """This class will check the plant's health
+    and print either errors or confirmation messages"""
+    def add_plant(self, plant_name):
+        """Will try to add a plant with a valid name"""
         try:
             if plant_name == '':
                 raise GardenError('Plant name cannot be empty!')
@@ -21,7 +26,9 @@ class GardenManager():
         except GardenError as e:
             print(f'Error adding plant: {e}')
 
-    def water_plants(plant_list):
+    def water_plants(self, plant_list):
+        """Will check if the plant is valid (not None)
+        and print a message accordingly"""
         print('Opening watering system')
         try:
             for plant in plant_list:
@@ -32,7 +39,8 @@ class GardenManager():
         finally:
             print('Closing watering system (cleanup)')
 
-    def check_health(plant_name, water_level, sunlight_hours):
+    def check_health(self, plant_name, water_level, sunlight_hours):
+        """Will check if water and sunlight values are acceptable"""
         try:
             if water_level < 1:
                 raise WaterError(
@@ -62,7 +70,8 @@ class GardenManager():
         except (PlantError, WaterError) as e:
             print(f'Error checking {plant_name}: {e}')
 
-    def garden_recovery():
+    def garden_recovery(self):
+        """Will try and catch a simple error, outputing a message"""
         try:
             raise GardenError('Not enough water in the tank')
         except GardenError as e:
@@ -72,30 +81,31 @@ class GardenManager():
 
 
 if __name__ == '__main__':
+    manager = GardenManager()
     print('=== Garden Management System ===\n')
 
     print('Adding plants to garden...')
     plants = ['tomato', 'lettuce', 'cabbage']
     for plant in plants:
-        GardenManager.add_plant(plant)
-    GardenManager.add_plant('')
+        manager.add_plant(plant)
+    manager.add_plant('')
 
     print('')
 
     plants = ['tomato', 'lettuce', 'cabbage', None]
     print('Watering plants...')
-    GardenManager.water_plants(plants)
+    manager.water_plants(plants)
 
     print('')
 
     print('Checking plant health...')
-    GardenManager.check_health('tomato', 5, 8)
-    GardenManager.check_health('lettuce', 15, 8)
+    manager.check_health('tomato', 5, 8)
+    manager.check_health('lettuce', 15, 8)
 
     print('')
 
     print('Testing error recovery...')
-    GardenManager.garden_recovery()
+    manager.garden_recovery()
 
     print('')
 

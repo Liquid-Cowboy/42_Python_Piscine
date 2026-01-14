@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 def check_plant_health(plant_name, water_level, sunlight_hours):
+    """Will raise errors if conditions are not met"""
     try:
         if plant_name == '':
             raise ValueError('Plant name cannot be empty!')
@@ -32,6 +33,7 @@ def check_plant_health(plant_name, water_level, sunlight_hours):
 
 
 def test_plant_checks():
+    """Tester to check values in check_plant_health()"""
     print('Testing good values...')
     check_plant_health('tomato', 5, 6)
     print('')

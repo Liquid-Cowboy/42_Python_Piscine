@@ -4,8 +4,8 @@ class GardenManager():
     """Garden Manager can manage a total of 100 gardens
     Since we can't use append method, a max limit of gardens
     needs to be defined (and initialized with None)"""
-    gardens = [None] * 100
-    garden_count = 0
+    gardens: list = [None] * 100
+    garden_count: int = 0
 
     def __init__(self, owner: str):
         """Will receive the owner name and initialize atributes

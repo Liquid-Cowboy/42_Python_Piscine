@@ -130,7 +130,7 @@ print('=== CODE NEXUS — POLYMORPHIC STREAM SYSTEM ===\n')
 
 sensor_1_values = ['humidity:10']
 sensor1_read: SensorStream = SensorStream('SENSOR_001')
-#print
+# print
 (sensor1_read.process_batch(sensor_1_values))
 print(sensor1_read.get_stats())
 

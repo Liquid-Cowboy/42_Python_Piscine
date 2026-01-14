@@ -6,10 +6,10 @@ def generate_1000():
 
     levels = [5, 12, 8, 32, 1, 7, 3, 5, 1, 10]
 
-    event_types = ['slayed monster', 'slayed monster', 'slayed monster',
-                   'found treasure', 'leveled up', 'leveled up',
-                   'leveled up', 'leveled up', 'leveled up',
-                   'completed challenge', 'won trophy', 'completed challenge']
+    event_types = ['slayed monster', 'found treasure', 'leveled up',
+                   'leveled up', 'leveled up', 'leveled up', 'leveled up',
+                   'completed challenge', 'won trophy', 'completed challenge',
+                   'slayed monster', 'slayed monster']
 
     for event in range(1, 1001):
         name = names[(event - 1) % 10]

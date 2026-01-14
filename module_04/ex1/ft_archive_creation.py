@@ -17,6 +17,8 @@ try:
     f.write(to_write)
     print('Inscribing preservation data...')
     print(to_write)
+    print('\nData inscription complete. Storage unit sealed.')
+    print(f'Archive \'{file_name}\' ready for long-term preservation.')
 except Exception:
     print('ERROR: some unexpected failure ocurred...')
 finally:
