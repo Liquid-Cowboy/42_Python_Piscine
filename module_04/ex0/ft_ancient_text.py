@@ -12,7 +12,10 @@ try:
     print('\nData recovery complete. Storage unit disconnected.')
 
 except Exception:
-    print('\nERROR: Storage vault not found. Run data generator first.')
+    print('\nERROR: ERROR: Storage vault not found. Run data generator first. \
+Remember: a good archivist always checks if the vault exists before \
+attempting access. Trying to read non-existent files is like trying to open a \
+door that isn’t there—it never ends well.')
 
 finally:
     if f:

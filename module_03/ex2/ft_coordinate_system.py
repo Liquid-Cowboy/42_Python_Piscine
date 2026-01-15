@@ -17,7 +17,7 @@ if __name__ == '__main__':
     y2: int = coordinates[1]
     z2: int = coordinates[2]
 
-    distance: float = '%.2f' % math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
+    distance: str = '%.2f' % math.sqrt((x2-x1)**2 + (y2-y1)**2 + (z2-z1)**2)
     print(
             f'Position created: {coordinates}\n'
             f'Distance between {origin} and {coordinates}:',

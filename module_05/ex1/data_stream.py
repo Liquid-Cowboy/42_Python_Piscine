@@ -31,9 +31,9 @@ class SensorStream(DataStream):
         of the value parameter when given. It is protected against invalid
         data types and invalid inputs (not following the
         <valid_parameter>:<value> protocol)"""
-        reading_count = 0
-        temp_count = 0
-        total_temp = 0
+        reading_count: int = 0
+        temp_count: int = 0
+        total_temp: float = 0
         for data in data_batch:
             try:
                 _ = data + ' '
@@ -59,8 +59,8 @@ class SensorStream(DataStream):
             avg: float = self.total_temp / self.temp_count
         except ZeroDivisionError:
             avg: float = 0
-        return f'Sensor analysis: {self.reading_count} readings processed, ' \
-               f'avg temp: {avg: .1f}°C'
+        return f'Sensor analysis: {self.reading_count} readings processed, '\
+               f'avg temp:{avg: .1f}°C'
 
     def filter_data(self, data_batch: List[Any], criteria: Optional[str]
                     = None) -> List[Any]:
@@ -128,10 +128,13 @@ class StreamProcessor (DataStream):
 
 print('=== CODE NEXUS — POLYMORPHIC STREAM SYSTEM ===\n')
 
-sensor_1_values = ['humidity:10']
+sensor_1_values = ['temp:22.5', 'humidity:65', 'pressure:1013']
 sensor1_read: SensorStream = SensorStream('SENSOR_001')
 # print
-(sensor1_read.process_batch(sensor_1_values))
-print(sensor1_read.get_stats())
+print('Initializing Sensor Stream...')
 
-print(sensor1_read.filter_data(sensor_1_values, 'critical'))
+print(f'Stream ID: {sensor1_read.get_stats()["id"]}, '
+      f'Type: {sensor1_read.get_stats()["type"]}')
+if (sensor1_read.process_batch(sensor_1_values)[:6] == 'Sensor'):
+    print(f'Processing sensor batch: {sensor_1_values}')
+print(sensor1_read.process_batch(sensor_1_values))

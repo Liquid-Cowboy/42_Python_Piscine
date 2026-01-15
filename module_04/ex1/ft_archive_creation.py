@@ -5,9 +5,9 @@ f = None
 print('=== CYBER ARCHIVES™ — PRESERVATION SYSTEM ===\n')
 
 file_name = 'new_discovery.txt'
-to_write = '{[}ENTRY 001{]}\tNew quantum algorithm discovered\n' \
-           '{[}ENTRY 002{]}\tEfficiency increased by 347%\n' \
-           '{[}ENTRY 003{]}\tArchived by Data Archivist trainee'
+to_write = '[ENTRY 001] New quantum algorithm discovered\n' \
+           '[ENTRY 002] Efficiency increased by 347%\n' \
+           '[ENTRY 003] Archived by Data Archivist trainee'
 
 print(f'Initializing new storage unit: {file_name}')
 

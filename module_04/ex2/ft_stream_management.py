@@ -12,7 +12,8 @@ except KeyboardInterrupt:
     print('\nERROR: User pressed Ctrl-C. Exiting...',
           file=sys.stderr)
 except Exception:
-    print('\nERROR: An error ocurred while receiving input. Exiting...')
+    print('\nERROR: An error ocurred while receiving input. Exiting...',
+          file=sys.stderr)
 
 else:
     print(f'\n[STANDARD] Archive status from {id}: {status}',
@@ -21,4 +22,4 @@ else:
           file=sys.stderr)
     print('[STANDARD] Data transmission complete',
           file=sys.stdout)
-    print('Three-channel communication test successful.')
+    print('\nThree-channel communication test successful.')

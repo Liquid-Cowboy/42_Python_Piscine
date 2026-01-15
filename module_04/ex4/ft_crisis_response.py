@@ -15,8 +15,14 @@ except FileNotFoundError:
     print(f'CRISIS ALERT: Attempting access to \'{lost}\'...')
     print('RESPONSE: Archive not found in storage matrix')
     print('STATUS: Crisis handled, system stable')
+except PermissionError:
+    print(f'CRISIS ALERT: Attempting access to \'{lost}\'...')
+    print('RESPONSE: Security protocols deny access')
+    print('STATUS: Crisis handled, security maintained')
 except Exception as e:
-    print(f'ERROR: {e}')
+    print(f'CRISIS ALERT: Attempting access to \'{lost}\'...')
+    print(f'RESPONSE: {e}')
+    print('STATUS: Crisis handled, system is operational')
 
 print('')
 
@@ -27,10 +33,16 @@ try:
         print('STATUS: Normal operations resumed')
 except FileNotFoundError:
     print(f'CRISIS ALERT: Attempting access to \'{classified}\'...')
+    print('RESPONSE: Archive not found in storage matrix')
+    print('STATUS: Crisis handled, system stable')
+except PermissionError:
+    print(f'CRISIS ALERT: Attempting access to \'{classified}\'...')
     print('RESPONSE: Security protocols deny access')
     print('STATUS: Crisis handled, security maintained')
 except Exception as e:
-    print(f'ERROR: {e}')
+    print(f'CRISIS ALERT: Attempting access to \'{lost}\'...')
+    print(f'RESPONSE: {e}')
+    print('STATUS: Crisis handled, system is operational')
 
 print('')
 
@@ -42,8 +54,14 @@ try:
 except FileNotFoundError:
     print(f'CRISIS ALERT: Attempting access to \'{std}\'...')
     print('RESPONSE: Archive not found in storage matrix')
+    print('STATUS: Crisis handled, system stable')
+except PermissionError:
+    print(f'CRISIS ALERT: Attempting access to \'{std}\'...')
+    print('RESPONSE: Security protocols deny access')
     print('STATUS: Crisis handled, security maintained')
 except Exception as e:
-    print(f'ERROR: {e}')
+    print(f'CRISIS ALERT: Attempting access to \'{std}\'...')
+    print(f'RESPONSE: {e}')
+    print('STATUS: Crisis handled, system is operational')
 
 print('\nAll crisis scenarios handled successfully. Archives secure.')

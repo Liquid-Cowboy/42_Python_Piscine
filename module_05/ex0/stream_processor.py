@@ -26,7 +26,7 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    "Will handle only lists of integers"
+    """Will handle only lists of integers"""
     def process(self, data: Any) -> str:
         if not self.validate(data):
             return ''
@@ -39,6 +39,7 @@ class NumericProcessor(DataProcessor):
         return f'Processed {count} numeric values, sum={total}, avg={avg:.1f}'
 
     def validate(self, data: Any) -> bool:
+        """Will validate the data parameter"""
         try:
             for nbr in data:
                 _ = nbr + 1
@@ -67,6 +68,7 @@ class TextProcessor(DataProcessor):
         return f'Processed text: {chr_count} characters, {wd_count} words'
 
     def validate(self, data: Any) -> bool:
+        """Will validate the data parameter"""
         try:
             _ = data + ' '
             return True
@@ -86,6 +88,7 @@ class LogProcessor(DataProcessor):
             return f'[INFO] INFO level detected: {data[6:]}'
 
     def validate(self, data: Any) -> bool:
+        """Will validate the data parameter"""
         try:
             _ = data + ' '
         except TypeError:
@@ -117,7 +120,7 @@ print(nbr_list.format_output(nbr_list.process(nbrs)))
 print('')
 
 print('Initializing Text Processor...')
-print(f'Processing data: {text}')
+print(f'Processing data: \"{text}\"')
 if text_data.validate(text):
     print('Validation: Text data verified')
 else:
@@ -127,7 +130,7 @@ print(text_data.format_output(text_data.process(text)))
 print('')
 
 print('Initializing Log Processor...')
-print(f'Processing data: {log}')
+print(f'Processing data: \"{log}\"')
 if log_data.validate(log):
     print('Validation: Log entry verified')
 else:

@@ -11,7 +11,7 @@ try:
 
         str_to_write = '[CLASSIFIED] New security protocols archived'
         f.write('\n' + str_to_write)
-        print('SECURE PRESERVATION:')
+        print('\nSECURE PRESERVATION:')
         print(str_to_write)
         print('Vault automatically sealed upon completion')
         print('\nAll vault operations completed with maximum security.')
