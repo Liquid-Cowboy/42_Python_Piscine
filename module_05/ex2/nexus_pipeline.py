@@ -27,6 +27,7 @@ class ProcessingPipeline(ABC):
         pass
 
     def run_pipeline(self, data: Any) -> Dict:
+        """Will execute assigned stages and keep track of duration"""
         start: float = time.perf_counter()
         new_data: Any = data
         for s in self._stages:
