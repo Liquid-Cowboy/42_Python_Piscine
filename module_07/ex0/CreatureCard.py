@@ -1,49 +1,65 @@
-from ex0.Card import Card
+from ex0.Card import Card, CardType
 
 
 class CreatureCard(Card):
-    def __init__(self, name: str, cost: int,
-                 rarity: str, attack: int, health: int) -> None:
+    def __init__(self, name: str, cost: int, rarity: str,
+                 attack: int, health: int) -> None:
         super().__init__(name, cost, rarity)
-        if attack < 0:
-            raise ValueError('Attack must be higher than or equal to 0')
-        if health < 0:
-            raise ValueError('Health must be higher than or equal to 0')
-        self.attack: int = attack
-        self.health: int = health
+
+        try:
+            _ = attack + 1
+            if attack < 0:
+                raise ValueError('Attack must be a positive integer')
+            self._attack = attack
+        except (TypeError, ValueError) as e:
+            print('[ERROR]:', e)
+            self._attack = 0
+            print('Attack defaulted to 0')
+
+        try:
+            _ = health + 1
+            if health < 0:
+                raise ValueError('Health must be a positive integer')
+            self._health = health
+        except (TypeError, ValueError) as e:
+            print('[ERROR]:', e)
+            self._health = 0
+            print('Health defaulted to 0')
 
     def play(self, game_state: dict) -> dict:
-        mana: int = game_state['player_1']['mana_available']
-        if (self.health > 0 and
-           self.is_playable(mana)):
-            mana -= self.cost
+        try:
+            if not isinstance(game_state, dict):
+                raise TypeError('game_state must be a dict')
+            if self.is_playable(game_state['available_mana']):
+                game_state['available_mana'] -= self._cost
+                return {
+                    'card_played': self._name,
+                    'mana_used': self._cost,
+                    'effect': 'Creature summoned to battlefield'
+                }
+
+        except (TypeError, KeyError) as e:
+            print('[ERROR]:', e)
             return {
-                'card_played': self.name,
-                'mana_used': self.cost,
-                'effect': 'Creature summoned to the battlefield',
+                'card_played': None,
             }
-        return {
-            'card_played': None,
-            'mana_used': 0,
-            'effect': 'Unable to play card.'
-        }
 
     def get_card_info(self) -> dict:
         return {
-            'name': self.name,
-            'cost': self.cost,
-            'rarity': self.rarity,
-            'type': 'Creature',
-            'attack': self.attack,
-            'health': self.health
+            'name': self._name,
+            'cost': self._cost,
+            'rarity': self._rarity.value,
+            'type': CardType.CREATURE.value,
+            'attack': self._attack,
+            'health': self._health,
         }
 
-    def attack_target(self, target: Card) -> dict:
-        target.health -= self.attack
-        resolved: bool = False if target.health > 0 else True
-        return {
-            'attacker': self.name,
-            'target': target.name,
-            'damage_dealt': self.attack,
-            'combat_resolved': resolved,
-        }
+    def attack_target(self, target) -> dict:
+        if isinstance(target, (CreatureCard)):
+            target._health -= self._attack
+            return {
+                'attacker': self._name,
+                'target': target._name,
+                'damage_dealt': self._attack,
+                'combat_resolved': True if target._health <= 0 else False,
+            }

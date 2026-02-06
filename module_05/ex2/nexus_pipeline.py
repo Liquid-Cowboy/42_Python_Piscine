@@ -19,7 +19,8 @@ class ProcessingPipeline(ABC):
 
     def add_stage(self, stage: ProcessingStage) -> None:
         """Adds stage to self._stages"""
-        self._stages.append(stage)
+        if isinstance(stage, ProcessingStage):
+            self._stages.append(stage)
 
     @abstractmethod
     def process(self, data: Any) -> Union[str, Any]:

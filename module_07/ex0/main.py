@@ -1,43 +1,32 @@
-from ex0 import CreatureCard
-from typing import Any
+from ex0.CreatureCard import CreatureCard
 
-if __name__ == '__main__':
-    fire_dragon: CreatureCard = CreatureCard('Fire Dragon', 5, 'Legendary',
-                                             7, 5)
-    goblin_warrior: CreatureCard = CreatureCard('Goblin Warrior', 4, 'Common',
-                                                2, 3)
+print('\n=== DataDeck Card Foundation ===\n')
 
-    game_state: dict[str, Any] = {
-        'player_1': {
-            'player': fire_dragon,
-            'mana_available': 6,
-            },
-        'player_2': {
-            'player': goblin_warrior,
-            'mana_available': 3,
-        },
-    }
+print('Testing Abstract Base Class Design:\n')
 
-    print('\n=== DataDeck Card Foundation ===\n')
+fire_dragon: CreatureCard = CreatureCard('Fire Dragon', 5, 'Legendary', 7, 5)
+goblin_warrior: CreatureCard = CreatureCard('Goblin Warrior',
+                                            2, 'Common', 2, 3)
+player1 = {
+    'available_mana': 6,
+    'target': goblin_warrior,
+}
 
-    print('Testing Abstract Base Class Design:\n')
+print('CreatureCard Info:')
+print(fire_dragon.get_card_info())
 
-    print('CreatureCard Info:')
-    print(fire_dragon.get_card_info())
+print('\nPlaying', fire_dragon.get_card_info()["name"],
+      'with', player1['available_mana'], 'mana available:')
+print('Playable:', fire_dragon.is_playable(player1['available_mana']))
+print('Play result:', fire_dragon.play(player1))
 
-    print(f'\nPlaying {fire_dragon.get_card_info()["name"]} with '
-          f'{game_state["player_1"]["mana_available"]} '
-          'mana available:')
-    print('Playable:',
-          fire_dragon.is_playable(game_state["player_1"]["mana_available"]))
-    print(f'Play result: {fire_dragon.play(game_state)}\n')
+print()
 
-    print('Fire Dragon attacks Goblin Warrior:')
-    print(f'Attack result: {fire_dragon.attack_target(goblin_warrior)}\n')
+print(fire_dragon.get_card_info()['name'], 'attacks',
+      player1['target'].get_card_info()['name'], ':')
+print('Attack result:', fire_dragon.attack_target(goblin_warrior))
 
-    print('Testing insufficient mana '
-          f'({game_state["player_2"]["mana_available"]} available):')
-    print('Playable:',
-          goblin_warrior.is_playable(game_state["player_2"]["mana_available"]))
+print(f'\nTesting insufficient mana ({player1["available_mana"]} available):')
+print('Playable:', fire_dragon.is_playable(player1['available_mana']))
 
-    print('\nAbstract pattern successfully demonstrated!')
+print('\nAbstract pattern successfully demonstrated!')

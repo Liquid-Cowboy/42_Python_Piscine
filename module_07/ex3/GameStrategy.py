@@ -1,0 +1,25 @@
+from abc import ABC, abstractmethod
+
+
+class GameStrategy(ABC):
+    def __init__(self, mana: int) -> None:
+        try:
+            if mana < 0:
+                raise ValueError('mana must be a positive integer')
+            self._mana: int = mana
+        except (TypeError, ValueError) as e:
+            print('[ERROR]:', e)
+            self._mana: int = 0
+            print('mana defaulted to 0')
+
+    @abstractmethod
+    def execute_turn(self, hand: list, battlefield: list) -> dict:
+        pass
+
+    @abstractmethod
+    def get_strategy_name(self) -> str:
+        pass
+
+    @abstractmethod
+    def prioritize_targets(self, available_targets: list) -> list:
+        pass
