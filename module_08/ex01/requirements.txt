@@ -1,0 +1,6 @@
+# module names can be listed without version specifiers
+
+pandas == 2.3.3
+requests == 2.25.1
+matplotlib == 3.10.8
+numpy == 2.2.6

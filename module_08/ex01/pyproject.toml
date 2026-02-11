@@ -1,0 +1,18 @@
+[tool.poetry]
+name = 'matrix-loading'
+version = '0.1.0'
+description = 'Loads data from an API and outputs a graph'
+authors =  ['mnogueir <mnogueir@student.42porto.com>']
+package-mode = false # tells poetry wether this is an instalable package
+                     # or a standalone project
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pandas = "2.3.3"
+requests = "2.25.1"
+matplotlib = "3.10.8"
+numpy = "2.2.6"
+
+[build-system] # makes sure poetry build is present in order to construct project
+requires = ['poetry-core>=1.0.0'] 
+build-backend = 'poetry.core.masonry.api' # function that builds the poetry package
