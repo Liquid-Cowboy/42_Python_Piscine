@@ -1,12 +1,12 @@
 def module_import() -> str:
-    import alchemy
+    import alchemy.elements
     return ('Method 1 - Full module import:\n'
             'alchemy.elements.create_fire(): '
             f'{alchemy.elements.create_fire()}\n')
 
 
 def function_import() -> str:
-    from alchemy import create_water
+    from alchemy.elements import create_water
     return ('Method 2 - Specific function import:\n'
             'create_water(): '
             f'{create_water()}\n')

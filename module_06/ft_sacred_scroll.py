@@ -3,7 +3,7 @@ import alchemy
 from typing import Callable
 
 
-def test_modules(c: str, f: str) -> str:
+def test_modules(c: str, f: str) -> Callable | str:
     try:
         if c == 'direct':
             func: Callable = getattr(alchemy.elements, f)
@@ -11,6 +11,7 @@ def test_modules(c: str, f: str) -> str:
         if c == 'package':
             func: Callable = getattr(alchemy, f)
             return func()
+        return 'Uknown module access mode'
     except AttributeError:
         return 'AttributeError - not exposed'
 
