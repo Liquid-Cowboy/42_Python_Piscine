@@ -24,7 +24,7 @@ class AgressiveStrategy(GameStrategy):
             return turn_res
 
         sorted_hand: list[Card] = sorted(hand, key=lambda card: card._cost)
-        targets: list[(CreatureCard, EliteCard)] = (
+        targets: list[(CreatureCard | EliteCard)] = (
             self.prioritize_targets(battlefield))
         for card in sorted_hand:
             if card.is_playable(self._mana) and targets:
@@ -68,7 +68,7 @@ class AgressiveStrategy(GameStrategy):
     def prioritize_targets(self, available_targets: list) -> list:
         try:
             if not isinstance(available_targets, list):
-                raise TypeError('avaiable_targets must be a list')
+                raise TypeError('available_targets must be a list')
         except TypeError as e:
             print('[ERROR]:', e)
             return []

@@ -3,7 +3,7 @@
 from importlib import import_module
 import sys
 
-dependencies: list[str] = {
+dependencies: dict[str, str] = {
     'pandas': 'Data manipulation ready',
     'requests': 'Network access ready',
     'matplotlib': 'Visualization ready',

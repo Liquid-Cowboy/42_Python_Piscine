@@ -9,7 +9,7 @@ from random import randint, choice
 class FantasyCardFactory(CardFactory):
     def create_creature(self, name_or_power: str | int | None = None) -> Card:
         try:
-            if not isinstance(name_or_power, (str, int, None)):
+            if not isinstance(name_or_power, (str | int | None)):
                 raise TypeError('name_or_power must be either a str, a'
                                 ' positive integer or None')
             if isinstance(name_or_power, int):
@@ -64,7 +64,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
         try:
-            if not isinstance(name_or_power, (str, int, None)):
+            if not isinstance(name_or_power, (str | int | None)):
                 raise TypeError('name_or_power must be either a str, a'
                                 ' positive integer or None')
             if isinstance(name_or_power, int):
@@ -128,7 +128,7 @@ class FantasyCardFactory(CardFactory):
 
     def create_artifact(self, name_or_power: str | int | None = None) -> Card:
         try:
-            if not isinstance(name_or_power, (str, int, None)):
+            if not isinstance(name_or_power, (str | int | None)):
                 raise TypeError('name_or_power must be either a str, a'
                                 ' positive integer or None')
             if isinstance(name_or_power, int):
@@ -188,21 +188,21 @@ class FantasyCardFactory(CardFactory):
             return {}
         creature_count: int = randint(0, size)
         spell_count: int = randint(0, (size - creature_count))
-        artifact_count: int = spell_count - creature_count
-        creatures: list[CreatureCard] = []
-        spells: list[SpellCard] = []
-        artifacts: list[ArtifactCard] = []
+        artifact_count: int = size - spell_count - creature_count
+        creatures: list[Card] = []
+        spells: list[Card] = []
+        artifacts: list[Card] = []
 
         for _ in range(creature_count):
-            creature: CreatureCard = self.create_creature('')
+            creature: Card = self.create_creature('')
             self._cards.append(creature)
             creatures.append(creature)
         for _ in range(spell_count):
-            spell: SpellCard = self.create_spell('')
+            spell: Card = self.create_spell('')
             self._cards.append(spell)
             spells.append(spell)
         for _ in range(artifact_count):
-            artifact: ArtifactCard = self.create_artifact('')
+            artifact: Card = self.create_artifact('')
             self._cards.append(artifact)
             artifacts.append(artifact)
         return {

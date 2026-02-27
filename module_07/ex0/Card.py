@@ -26,7 +26,7 @@ class Card(ABC):
             self._rarity: Rarity = Rarity(rarity)
         except ValueError as e:
             print('[ERROR]:', e)
-            self._rarity = Rarity.COMMON
+            self._rarity: Rarity = Rarity.COMMON
             print('Rarity defaulted to "Common"')
 
     @abstractmethod

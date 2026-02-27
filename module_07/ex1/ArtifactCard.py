@@ -6,6 +6,7 @@ class ArtifactCard(Card):
                  durability: int, effect: str) -> None:
         super().__init__(name, cost, rarity)
         try:
+            _ = durability + 1
             if durability < 0:
                 raise ValueError('Durability must be a positive integer')
             self._durability: int = durability

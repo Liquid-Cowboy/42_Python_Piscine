@@ -45,10 +45,10 @@ class EliteCard(Card, Combatable, Magical):
                 raise TypeError(f'{mana} is not a valid integer')
             if mana < 0:
                 raise ValueError('Mana must be a positive integer')
-            self._mana = mana
+            self._mana: int = mana
         except (TypeError, ValueError) as e:
             print('[ERROR]:', e)
-            self._mana = 0
+            self._mana: int = 0
             print('Mana defaulted to 0')
 
     def play(self, game_state: dict) -> dict:

@@ -3,7 +3,7 @@ import alchemy
 from typing import Callable
 
 
-def test_modules(c: str, f: str) -> Callable | str:
+def test_modules(c: str, f: str) -> str:
     try:
         if c == 'direct':
             func: Callable = getattr(alchemy.elements, f)

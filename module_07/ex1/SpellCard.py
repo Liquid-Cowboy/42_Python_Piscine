@@ -12,7 +12,7 @@ class SpellCard(Card):
             self._effect_type: EffectType = EffectType(effect_type)
         except (TypeError, ValueError) as e:
             print('[ERROR]:', e)
-            self._effect_type = EffectType.DAMAGE
+            self._effect_type: EffectType = EffectType.DAMAGE
             print('Effect type defaulted to "Damage"')
         self._used: bool = False
 

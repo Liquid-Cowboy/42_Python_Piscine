@@ -82,10 +82,10 @@ class LogProcessor(DataProcessor):
     def process(self, data: Any) -> str:
         if not self.validate(data):
             return ''
-        if data[:7] == 'ERROR: ':
-            return f'[ALERT] ERROR level detected: {data[7:]}'
-        else:
+        if data[:6] == 'INFO: ':
             return f'[INFO] INFO level detected: {data[6:]}'
+        else:
+            return f'[ALERT] ERROR level detected: {data[7:]}'
 
     def validate(self, data: Any) -> bool:
         """Will validate the data parameter"""

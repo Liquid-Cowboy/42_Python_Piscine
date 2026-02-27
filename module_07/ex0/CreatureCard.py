@@ -10,20 +10,20 @@ class CreatureCard(Card):
             _ = attack + 1
             if attack < 0:
                 raise ValueError('Attack must be a positive integer')
-            self._attack = attack
+            self._attack: int = attack
         except (TypeError, ValueError) as e:
             print('[ERROR]:', e)
-            self._attack = 0
+            self._attack: int = 0
             print('Attack defaulted to 0')
 
         try:
             _ = health + 1
             if health < 0:
                 raise ValueError('Health must be a positive integer')
-            self._health = health
+            self._health: int = health
         except (TypeError, ValueError) as e:
             print('[ERROR]:', e)
-            self._health = 0
+            self._health: int = 0
             print('Health defaulted to 0')
 
     def play(self, game_state: dict) -> dict:
@@ -37,6 +37,9 @@ class CreatureCard(Card):
                     'mana_used': self._cost,
                     'effect': 'Creature summoned to battlefield'
                 }
+            return {
+                'card_played': None,
+            }
 
         except (TypeError, KeyError) as e:
             print('[ERROR]:', e)
@@ -63,3 +66,6 @@ class CreatureCard(Card):
                 'damage_dealt': self._attack,
                 'combat_resolved': True if target._health <= 0 else False,
             }
+        return {
+            'attacker': None,
+        }

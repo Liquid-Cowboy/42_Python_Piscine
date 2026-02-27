@@ -25,7 +25,7 @@ print('- Card:', card_m)
 print('- Combatable:', combat_m)
 print('- Magical:', magic_m)
 
-arcane_warrior: EliteCard = EliteCard('Arcane Warrior', 5, 'Ancient',
+arcane_warrior: EliteCard = EliteCard('Arcane Warrior', 5, 'Uncommon',
                                       5, 5, 'melee', 8)
 targets: list[EliteCard] = [
     EliteCard('Enemy1', 2, 'Uncommon', 3, 5, 'ranged', 3),

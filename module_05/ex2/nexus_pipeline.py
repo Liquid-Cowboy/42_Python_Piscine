@@ -104,8 +104,8 @@ class InputStage():
 
 
 class TransformStage():
+    """Data transformation and enrichment"""
     def process(self, data: Any) -> Dict:
-        """Data transformation and enrichment"""
         error: dict[str, Any] = {'stage': 2, 'error': 'Invalid data format'}
         if not isinstance(data, dict):
             return error
@@ -152,8 +152,8 @@ class TransformStage():
 
 
 class OutputStage():
+    """Output formatting and delivery"""
     def process(self, data: Any) -> str:
-        """Output formatting and delivery"""
         error: str = 'Invalid data format'
 
         if not isinstance(data, dict):
