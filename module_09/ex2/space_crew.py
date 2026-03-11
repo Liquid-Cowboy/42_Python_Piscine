@@ -1,7 +1,6 @@
 from enum import Enum
 from pydantic import BaseModel, Field, model_validator, ValidationError
 from datetime import datetime
-from typing import Self
 
 
 class Rank(Enum):
@@ -33,7 +32,7 @@ class SpaceMission(BaseModel):
     budget_millions: float = Field(ge=1, le=10000)
 
     @model_validator(mode='after')
-    def check(self) -> Self:
+    def check(self) -> 'SpaceMission':
         in_charge: bool = False
         experienced: int = 0
         crew_count: int = 0
