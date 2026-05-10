@@ -1,131 +1,154 @@
-from typing import Callable, Any
+#! /usr/bin/env python3
+
 from functools import wraps
-from time import perf_counter as clock
+from collections.abc import Callable
+from time import perf_counter as now, sleep
+from typing import Any
 
 
 def spell_timer(func: Callable) -> Callable:
-    """Wrapping a function makes it so it's reusable
-      a wrapper function makes so we can preserve
-    operations "around it" and metadata from the function we
-    will wrap with it (docstrings for ex.)"""
-    try:
-        if not callable(func):
-            raise TypeError('spell_timer() argument[0]("func") '
-                            'is not Callable')
-    except TypeError as e:
-        print(f'[ERROR]: {e}')
-        return lambda: None
+    if not callable(func):
+        raise TypeError('First argument "func" is not a valid Callable.')
 
     @wraps(func)
-    def timer(*args, **kwargs) -> Any:
+    def wrapper(*args, **kwargs) -> Any:
+        """This is a wrapper."""
+        start: float = now()
         print(f'Casting {func.__name__}...')
-        start: float = clock()
-        result: Any = func(*args, **kwargs)
-        end: float = clock()
-        print(f'Spell completed in {end - start:.2f} seconds')
-        return result
-    return timer
+        sleep(1)
+        res: Any = func(*args, **kwargs)
+        print(f'Spell completed in {now()-start:.3f} seconds')
+        print('Result: ', end='')
+        return res
+
+    return wrapper
 
 
 def power_validator(min_power: int) -> Callable:
-    """Since we're passing an argument to this function
-    a decorator receiving the function has to be defined inside"""
-    try:
-        if not isinstance(min_power, int):
-            raise TypeError('power_validator() argument[0](min_power) '
-                            'must be an int')
-    except TypeError as e:
-        print(f'[ERROR]: {e}')
-        return lambda: None
 
-    def decorator(func: Callable) -> Callable:
+    if not isinstance(min_power, int):
+        raise TypeError('First argument "min_power" is not a valid int.')
+
+    def wrapper(func: Callable) -> Callable:
+
+        if not callable(func):
+            raise TypeError('First argument "func" is not a valid Callable.')
 
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
-            if len(args) > 0 and isinstance(args[0], int):
-                return (func(*args, **kwargs) if args[0] > min_power
-                        else 'Insufficient power for this spell')
-            try:
-                if 'power' not in kwargs:
-                    raise KeyError('wrapper() argument[0] or '
-                                   '"power" not found')
-                if not isinstance(kwargs['power'], int):
-                    raise TypeError('power must be an int')
-                return (func(*args, **kwargs) if kwargs['power'] > min_power
-                        else 'Insufficient power for this spell')
-            except (KeyError, TypeError) as e:
-                print(f'[ERROR]: {e}')
-                return None
-        return wrapper
-    return decorator
+        def validator(*args, **kwargs) -> Any:
+            """This is a validator"""
+
+            if not isinstance(args[0], int):
+                raise TypeError('First argument "power" is not a valid int.')
+
+            if args[0] < min_power:
+                return 'Insufficient power for this spell'
+            else:
+                return func(*args, **kwargs)
+        return validator
+    return wrapper
 
 
 def retry_spell(max_attempts: int) -> Callable:
-    try:
-        if not isinstance(max_attempts, int):
-            raise TypeError('retry_spell() argument[0] must be an int')
-    except TypeError as e:
-        print(f'[ERROR]: {e}')
-        return lambda: None
 
-    def decorator(func: Callable) -> Callable:
+    if not isinstance(max_attempts, int):
+        raise TypeError('First argument "max_attempts" is not a valid int.')
+
+    def wrapper(func: Callable) -> Callable:
+        if not callable(func):
+            raise TypeError('First argument "func" is not a valid Callable.')
 
         @wraps(func)
-        def wrapper(*args, **kwargs) -> Any:
-            for attempt in range(1, max_attempts + 1):
+        def try_func(*args, **kwargs) -> Any:
+            """This is a function tester"""
+
+            for i in range(1, max_attempts + 1):
                 try:
                     return func(*args, **kwargs)
+
                 except Exception:
-                    if attempt < max_attempts:
-                        print(f'Spell failed, retrying...'
-                              f'(attempt {attempt}/{max_attempts})')
-                    else:
-                        return ('Spell casting failed after '
-                                f'{max_attempts} attempts')
-        return wrapper
-    return decorator
+                    if i < max_attempts:
+                        print('Spell failed, retrying... ' +
+                              f'(attempt {i}/{max_attempts})')
+
+            return f'Spell casting failed after {max_attempts} attempts'
+
+        return try_func
+    return wrapper
 
 
 class MageGuild:
+
     @staticmethod
     def validate_mage_name(name: str) -> bool:
-        try:
-            if not isinstance(name, str):
-                raise TypeError('MageGuild.validate_mage_name() '
-                                'must take a str')
-        except TypeError as e:
-            print(f'[ERROR]: {e}')
+
+        if not isinstance(name, str):
+            raise TypeError('First argument "name" is not a valid str.')
+        if len(name) < 3 or not ''.join(name.split()).isalpha():
             return False
-        if len(name) < 3:
-            return False
-        for chr in name:
-            if (not (chr >= '\t' and chr <= '\r') and
-                    not chr == ' ' and not
-                    (chr >= 'a' and chr <= 'z')):
-                return False
         return True
 
-    @power_validator(min_power=10)
     def cast_spell(self, spell_name: str, power: int) -> str:
-        try:
-            if not isinstance(spell_name, str):
-                raise TypeError('MageGuild.cast_spell() '
-                                'argument[0] (spell_name) '
-                                'must be a str')
-        except TypeError as e:
-            print(f'[ERROR]: {e}')
-            return ''
-        return f'Successfully cast {spell_name} with {power} power'
+        if not isinstance(spell_name, str):
+            raise TypeError('First argument "spell_name" is not a valid str.')
+        if not isinstance(power, int):
+            raise TypeError('Second argument "power" is not a valid int.')
+
+        @power_validator(10)
+        def check_power(power: int) -> str:
+            return f'Successfully cast {spell_name} with {power} power'
+        return check_power(power)
 
 
 if __name__ == '__main__':
     @spell_timer
-    def fireball() -> str:
-        return 'Fireball cast!'
-    print('\nTesting spell timer...')
-    print(fireball())
+    def activate_spell() -> str:
+        """Activates a spell."""
+        return 'Avrakedabra!!!'
+
     guild: MageGuild = MageGuild()
-    print('\nTesting MageGuild...\n'
-          f'{MageGuild.validate_mage_name("*Supreme Mage*")}\n'
-          f'{MageGuild.validate_mage_name("Supreme Mage")}\n'
-          f'{guild.cast_spell("Lightning", power=15)}')
+
+    def difficult_spell(power: int, effect: str):
+        """Casts a difficult spell."""
+        if not isinstance(power, int) or not isinstance(effect, str):
+            raise TypeError()
+        match effect:
+            case 'heal':
+                return f'Target is healed with {power} points'
+            case 'damage':
+                return f'Target is damaged with {power} points'
+            case 'buff':
+                return f'Target is buffed with {power} points'
+            case 'debuff':
+                return f'Target is debuffed with {power} points'
+            case _:
+                raise ValueError()
+    try:
+        print('Testing spell timer...')
+        print(activate_spell())
+        print(f'Getting function docstring -> "{activate_spell.__doc__}"')
+    except Exception as e:
+        print(f'Error in spell_timer: {e}')
+
+    try:
+        try_spell = retry_spell(3)(difficult_spell)
+        try_spell_again = retry_spell(1)(difficult_spell)
+        print('\nTesting retrying spell...')
+        print(try_spell('tree', 'true'))
+        print(try_spell_again(3, 'heal'))
+        print(f'Getting function docstring -> "{try_spell_again.__doc__}"')
+    except Exception as e:
+        print(f'Error in retry_spell: {e}')
+
+    try:
+        print('\nTesting MageGuild...')
+        print(guild.validate_mage_name('Mary poppins'))
+        print(guild.validate_mage_name(' 4 '))
+    except Exception as e:
+        print(f'Error in MageGuild.validate_mage_name: {e}')
+
+    try:
+        print(guild.cast_spell('Alakazaam', 15))
+        print(guild.cast_spell('Fireball', 1))
+    except Exception as e:
+        print(f'Error in MageGuild.cast_spell: {e}')

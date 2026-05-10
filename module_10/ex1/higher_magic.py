@@ -1,113 +1,96 @@
-from typing import Callable, Any
+#! /usr/bin/env python3
+
+from collections.abc import Callable
 
 
 def spell_combiner(spell1: Callable, spell2: Callable) -> Callable:
-    """
-    We can define a function inside of another function and then return it
-    We also can pass to these new functions, other functions and whatever
-    arguments they were called with, by using *args and **kwargs
-    *args enables the function to receive an unspecified number of
-    positional arguments(arguments following one another)
-    **kwargs enables the function to receive an unspecified number of
-    keyword arguments"""
-    try:
-        if not callable(spell1) or not callable(spell2):
-            raise TypeError('Function expects two Callables')
+    if not callable(spell1):
+        raise TypeError('First argument "spell1" is not a valid Callable.')
+    if not callable(spell2):
+        raise TypeError('Second argument "spell2" is not a valid Callable.')
 
-        def combined(*args, **kwargs) -> tuple:
-            return (spell1(*args, **kwargs), spell2(*args, **kwargs))
-        return combined
-    except TypeError as e:
-        print('[ERROR]:', e)
-        return lambda: None
+    def wrapper(*args, **kwargs) -> tuple[str, str]:
+        return (spell1(*args, **kwargs), spell2(*args, **kwargs))
+    return wrapper
 
 
 def power_amplifier(base_spell: Callable, multiplier: int) -> Callable:
-    """Check spell_combiner()'s docstring for more info"""
-    try:
-        if not callable(base_spell):
-            raise TypeError('Argument[0] must be a Callable')
-        if not isinstance(multiplier, int):
-            raise TypeError('Argument[1], must be an int')
+    if not callable(base_spell):
+        raise TypeError('First argument "base_spell" is not a valid Callable.')
+    if not isinstance(multiplier, int) or multiplier <= 0:
+        raise TypeError('Second argument "multiplier" is not a positive int.')
 
-        def multiply() -> int:
-            return base_spell() * multiplier
-        return multiply
-    except TypeError as e:
-        print('[ERROR]:', e)
-        return lambda: None
+    def wrapper(target: str, power: int) -> str:
+        return base_spell(target, power * multiplier)
+    return wrapper
 
 
 def conditional_caster(condition: Callable, spell: Callable) -> Callable:
-    """Check spell_combiner()'s docstring for more info"""
-    try:
-        if not callable(condition) or not callable(spell):
-            raise TypeError('Function expects two Callables')
+    if not callable(condition):
+        raise TypeError('First argument "condition" is not a valid Callable.')
+    if not callable(spell):
+        raise TypeError('Second argument "spell" is not a valid Callable.')
 
-        def cast_spell(*args, **kwargs) -> str:
-            if condition(*args, **kwargs):
-                return spell(*args, **kwargs)
-            else:
-                return 'Spell fizzled'
-        return cast_spell
-    except TypeError as e:
-        print('[ERROR]:', e)
-        return lambda: None
+    def wrapper(*args, **kwargs) -> str:
+        if condition(*args, **kwargs):
+            return spell(*args, **kwargs)
+        else:
+            return 'Spell fizzled'
+    return wrapper
 
 
 def spell_sequence(spells: list[Callable]) -> Callable:
-    """Check spell_combiner()'s docstring for more info"""
-    try:
-        if not isinstance(spells, list):
-            raise TypeError('Argument must be a list')
-        for spell in spells:
-            if not callable(spell):
-                raise TypeError('Spell must be Callable')
+    if not isinstance(spells, list):
+        raise TypeError('First argument "spells" is not a valid list.')
+    for x in spells:
+        if not callable(x):
+            raise TypeError('First argument "spells" ' +
+                            'must be a list of Callables.')
 
-        def return_sequence(*args, **kwargs) -> list[Any]:
-            return [c(*args, **kwargs) for c in spells]
-        return return_sequence
-
-    except TypeError as e:
-        print('[ERROR]:', e)
-        return lambda: None
+    def wrapper(*args, **kwargs) -> list[str]:
+        res: list[str] = []
+        for s in spells:
+            res.append(s(*args, **kwargs))
+        return res
+    return wrapper
 
 
 if __name__ == '__main__':
-    def fireball(target: str) -> str:
-        return f'Fireball hits {target}'
 
-    def heal(target: str) -> str:
-        return f'Heals {target}'
+    def fireball(target: str, power: int) -> str:
+        return f'Fireball hits {target} for {power} HP.'
 
-    combined: tuple[str, str] = spell_combiner(fireball, heal)('Dragon')
-    print('\nTesting spell combiner...\n'
-          'Combined spell result:',
-          f'{combined[0]}, {combined[1]}'
-          )
+    def frostbite(target: str, power: int) -> str:
+        return f'Frostbite hits {target} for {power} HP.'
 
-    def power() -> int:
-        return 10
-    amplified: Callable = power_amplifier(power, 3)
-    print('\nTesting power amplifier...\n'
-          f'Original: {power()}, Amplified: {amplified()}')
+    def condition(target: str, power: int) -> bool:
+        return True if power % 2 == 0 else False
+    try:
+        print('Testing spell combiner...')
+        print(spell_combiner(fireball, frostbite)('goblin', 13))
+    except Exception as e:
+        print(f'Error in spell_combiner: {e}')
 
-"""    def condition(value: bool) -> bool:
-        return value
+    try:
+        print('\nTesting power amplifier...')
+        print(fireball('goblin', 5))
+        print('Now with amplified power...')
+        print(power_amplifier(fireball, 3)('goblin', 5))
+    except Exception as e:
+        print(f'Error in power_amplifier: {e}')
 
-    def recharge_mana(value: bool) -> str:
-        return 'Mana recharged!' if value else 'Recharge failed'
+    try:
+        print('\nTesting conditional caster...')
+        print('Testing with even power number...')
+        print(conditional_caster(condition, fireball)('goblin', 4))
+        print('Testing with uneven power number...')
+        print(conditional_caster(condition, fireball)('goblin', 5))
+    except Exception as e:
+        print(f'Error in conditional_caster: {e}')
 
-    conditional_spell: str = conditional_caster(condition, recharge_mana)(True)
-    print('\nTesting conditional caster...\n', conditional_spell)
-
-    spells: list[Callable] = [
-        lambda s: '* ' + s + ' *',
-        lambda s: '* ' + s + ' *',
-        lambda s: '* ' + s + ' *',
-        lambda s: '* ' + s + ' *',
-        lambda s: '* ' + s + ' *',
-    ]
-    multiple_casts: list[str] = spell_sequence(spells)('42')
-    print('\nTesting spell sequence...\n', multiple_casts)
-"""
+    try:
+        print('\nTesting spell sequence...')
+        for s in spell_sequence([fireball, frostbite])('goblin', 3):
+            print(f'\t{s}')
+    except Exception as e:
+        print(f'Error in spell_sequence: {e}')
